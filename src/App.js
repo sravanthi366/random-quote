@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from 'react';
+import QuoteAndAuthor from './components/QuoteAndAuthor';
+import quotes from '../src/QuoteDb';
+import CSS from '../src/App.css'
+export default class App extends Component{
+  //state
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  state={
+    quote: quotes[0].quote,
+    author: quotes[0].author
+  }
+
+  //generator different quote function
+
+  generateRandomQuote = (arr)=>{
+    //get randum numbers
+
+    let num = Math.floor (Math.random()*quotes.length)
+
+    let newQuote = quotes[num]
+    this.setState({
+
+      quote: newQuote.quote,
+      author: newQuote.author
+
+    })
+
+    this.shuffleQuotes(quotes)
+  }
+
+  //shuffle function
+
+  shuffleQuotes = (arr)=>{
+    return arr.sort (function(){return 0.5-Math.random()})
+  }
+
+render(){
+  return(
+    <div className="container" >
+    <h1 className='text-container'> Random Quote</h1>
+
+    <QuoteAndAuthor
+          generateRandomQuote={this.generateRandomQuote}
+          quote={this.state}
+        />
+
     </div>
-  );
+  )
+}
+  
 }
 
-export default App;
